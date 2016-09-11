@@ -14,10 +14,11 @@ Download Zip bundle
 2. 选择进入一条搜索结果
 
 #### Refer to http://gatling.io/docs/2.0.0-RC2/http/http_request.html#query-parameters
-#### Example
+#### Request
 - GET http://stackoverflow.com/search?q=gatling
 - GET http://stackoverflow.com/questions/22563517/using-gatling-as-an-integration-test-tool?s=1|3.1610
-
+ 
+#### Example
 
 
     exec(http("Search")
@@ -39,8 +40,10 @@ Download Zip bundle
 1. 在结果列表,跳转到第2页,第3页
 
 #### Refer to http://gatling.io/docs/2.0.0-RC2/http/http_request.html#query-parameters
+#### Request
+- GET http://stackoverflow.com/search?page=2&tab=relevance&q=gatling
+
 #### Example
-GET http://stackoverflow.com/search?page=2&tab=relevance&q=gatling
 
     exec(http("Page 2")
         .get("/search")
@@ -67,11 +70,12 @@ GET http://stackoverflow.com/search?page=2&tab=relevance&q=gatling
 - http://gatling.io/docs/2.0.0-RC2/http/http_request.html#query-parameters
 - http://gatling.io/docs/2.0.0-RC2/http/http_request.html#post-parameters
 
-#### Example
+#### Request
 - GET  http://stackoverflow.com/documentation
 - POST http://stackoverflow.com/documentation/filter/submit
 - GET  http://stackoverflow.com/documentation/css/topics
 
+#### Example
 
     exec(http("Documentations")
         .get("/documentation")
