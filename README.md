@@ -90,7 +90,7 @@ GET  http://stackoverflow.com/documentation/css/topics
 
 
 ### Scenario 4
-1. 用户注入:5秒内平滑注入10个用户
+1. 用户注入:5秒内平滑注入5个用户
 
 #### Refer to http://gatling.io/docs/2.0.0-RC2/general/simulation_setup.html
 #### Example
