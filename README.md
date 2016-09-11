@@ -15,8 +15,8 @@ Download Zip bundle
 
 #### Refer to http://gatling.io/docs/2.0.0-RC2/http/http_request.html#query-parameters
 #### Example
-GET http://stackoverflow.com/search?q=gatling
-GET http://stackoverflow.com/questions/22563517/using-gatling-as-an-integration-test-tool?s=1|3.1610
+- GET http://stackoverflow.com/search?q=gatling
+- GET http://stackoverflow.com/questions/22563517/using-gatling-as-an-integration-test-tool?s=1|3.1610
 
     exec(http("Search")
           .get("/search")
@@ -61,13 +61,14 @@ GET http://stackoverflow.com/search?page=2&tab=relevance&q=gatling
 3. 进入具体的主题页面
 
 #### Refer to 
-http://gatling.io/docs/2.0.0-RC2/http/http_request.html#query-parameters
-http://gatling.io/docs/2.0.0-RC2/http/http_request.html#post-parameters
+- http://gatling.io/docs/2.0.0-RC2/http/http_request.html#query-parameters
+- http://gatling.io/docs/2.0.0-RC2/http/http_request.html#post-parameters
 
 #### Example
-GET  http://stackoverflow.com/documentation
-POST http://stackoverflow.com/documentation/filter/submit
-GET  http://stackoverflow.com/documentation/css/topics
+- GET  http://stackoverflow.com/documentation
+- POST http://stackoverflow.com/documentation/filter/submit
+- GET  http://stackoverflow.com/documentation/css/topics
+
 
     exec(http("Documentations")
         .get("/documentation")
@@ -189,10 +190,10 @@ http://gatling.io/docs/2.0.0-RC2/advanced_tutorial.html#step-01-isolate-processe
 3. 访问保存的URL进入指定页面
 
 #### Refer to
-http://gatling.io/docs/2.0.0-RC2/advanced_tutorial.html#step-03-use-dynamic-data-with-feeders-and-checks
-http://gatling.io/docs/2.0.0-RC2/session/feeder.html#feeder
-http://gatling.io/docs/2.0.0-RC2/http/http_check.html#http-response-body
-http://gatling.io/docs/2.0.0-RC2/http/http_check.html#saving
+- http://gatling.io/docs/2.0.0-RC2/advanced_tutorial.html#step-03-use-dynamic-data-with-feeders-and-checks
+- http://gatling.io/docs/2.0.0-RC2/session/feeder.html#feeder
+- http://gatling.io/docs/2.0.0-RC2/http/http_check.html#http-response-body
+- http://gatling.io/docs/2.0.0-RC2/http/http_check.html#saving
 
 #### Example
 
@@ -269,8 +270,8 @@ http://gatling.io/docs/2.0.0-RC2/http/http_check.html#saving
 1. 使用repeat简化翻页
 
 #### Refer to 
-http://gatling.io/docs/2.0.0-RC2/advanced_tutorial.html#step-04-looping
-http://gatling.io/docs/2.0.0-RC2/general/scenario.html#repeat
+- http://gatling.io/docs/2.0.0-RC2/advanced_tutorial.html#step-04-looping
+- http://gatling.io/docs/2.0.0-RC2/general/scenario.html#repeat
 
 #### Example
 
