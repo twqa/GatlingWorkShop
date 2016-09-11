@@ -18,6 +18,8 @@ Download Zip bundle
 - GET http://stackoverflow.com/search?q=gatling
 - GET http://stackoverflow.com/questions/22563517/using-gatling-as-an-integration-test-tool?s=1|3.1610
 
+
+
     exec(http("Search")
           .get("/search")
           .headers(headers_0)
@@ -30,6 +32,7 @@ Download Zip bundle
           .queryParam("s", "1|3.1596")
         )
     .pause(1)
+
 
 
 ### Scenario 2
