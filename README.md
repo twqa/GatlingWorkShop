@@ -4,9 +4,7 @@ Performance test using Gatling
 
 ## Preparation
 Download Zip bundle 
-
-```http://gatling.io/#/resources/download```
-
+1. http://gatling.io/#/resources/download
 
 ## Workshop Steps
 
@@ -113,7 +111,6 @@ http://gatling.io/docs/2.0.0-RC2/advanced_tutorial.html#step-01-isolate-processe
 
     //Search
     object Search {
-    
         val search =
           exec(http("Home")
             .get("/")
@@ -201,7 +198,6 @@ http://gatling.io/docs/2.0.0-RC2/http/http_check.html#saving
     val feeder = csv("keyWords.csv").circular
     //Search
     object Search {
-    
         val search =
           exec(http("Home")
             .get("/")
@@ -288,7 +284,6 @@ http://gatling.io/docs/2.0.0-RC2/general/scenario.html#repeat
               .queryParam("tab", "${searchTabName}")
               .queryParam("q", "${searchCriterion}"))
             .pause(1)
-    
         val browse = exec(gotoPage(2), gotoPage(3))
         
         //repeat method (从0页开始)
@@ -301,7 +296,6 @@ http://gatling.io/docs/2.0.0-RC2/general/scenario.html#repeat
                .queryParam("q", "gatling"))
             .pause(1)
         }
-    
       }
 
 
