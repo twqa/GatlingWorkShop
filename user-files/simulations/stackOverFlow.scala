@@ -1,6 +1,3 @@
-package simulations
-
-
 import scala.concurrent.duration._
 
 import io.gatling.core.Predef._
@@ -33,11 +30,55 @@ class stackOverFlow extends Simulation {
     .headers(headers_0)
   )
     //Search
+    .pause(1)
+    .exec(http("Search")
+      .get("/search")
+      .headers(headers_0)
+      .queryParam("q", "gatling")
+    )
+    .pause(1)
+    .exec(http("Select")
+      .get("/questions/22563517/using-gatling-as-an-integration-test-tool")
+      .headers(headers_0)
+      .queryParam("s", "1|3.1596")
+    )
+    .pause(1)
 
     //Pages
-
-
+    .exec(http("Page 2")
+    .get("/search")
+    .headers(headers_0)
+    .queryParam("page", "2")
+    .queryParam("tab", "relevance")
+    .queryParam("q", "gatling")
+  )
+    .pause(2)
+    .exec(http("Page 3")
+      .get("/search")
+      .headers(headers_0)
+      .queryParam("page", "3")
+      .queryParam("tab", "relevance")
+      .queryParam("q", "gatling")
+    )
+    .pause(1)
     //Documentations
+    .exec(http("Documentations")
+    .get("/documentation")
+    .headers(headers_0)
+  )
+    .pause(2)
+    .exec(http("Tag")
+      .post("/documentation/filter/submit")
+      .headers(headers_1)
+      .formParam("filter", "CSS")
+      .formParam("fkey", "f757bad658420c9ff22bd7a93654132c")
+      .formParam("tab", "popular")
+    )
+    .pause(2)
+    .exec(http("Topic")
+      .get("/documentation/css/topics")
+      .headers(headers_0)
+    )
 
-    //setUp
+  setUp(scn.inject(rampUsers(5) over (5 seconds))).protocols(httpProtocol)
 }

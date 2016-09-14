@@ -9,104 +9,45 @@ Download Zip bundle
 
 ## Workshop Steps
 
-### Scenario 1
-1. 在"stackoverflow" 网站上搜索'gatling'
-2. 选择进入一条搜索结果
+### Scenario 
+    
+    编写脚本,在"stackoverflow"网站上实现如下操作:
+    - 进入首页
+    - 搜索"gatling",并进入一条搜索结果
+    - 在结果列表进行翻页操作
+    - 进入"Documentation",根据输入的tag,进入指定主题页面
 
-#### Refer to http://gatling.io/docs/2.0.0-RC2/http/http_request.html#query-parameters
-#### Request
-- GET http://stackoverflow.com/search?q=gatling
-- GET http://stackoverflow.com/questions/22563517/using-gatling-as-an-integration-test-tool?s=1|3.1610
- 
-#### Example
+#### Section 1
 
+1. 访问"stackoverflow" homepage
+2. 定义用户注入方式 - rampUsers(nbUsers) over(duration)
 
-    exec(http("Search")
-          .get("/search")
-          .headers(headers_0)
-          .queryParam("q", "gatling")
-        )
-    .pause(1)
-    .exec(http("Select")
-          .get("/questions/22563517/using-gatling-as-an-integration-test-tool")
-          .headers(headers_0)
-          .queryParam("s", "1|3.1596")
-        )
-    .pause(1)
+##### Refer to 
 
+- http://gatling.io/docs/2.2.2/general/simulation_structure.html#headers-definition
+- http://gatling.io/docs/2.0.0-RC2/http/http_request.html#common-parameters
+- http://gatling.io/docs/2.0.0-RC2/general/simulation_setup.html#injection
 
+##### Example
 
-### Scenario 2
-1. 在结果列表,跳转到第2页,第3页
-
-#### Refer to http://gatling.io/docs/2.0.0-RC2/http/http_request.html#query-parameters
-#### Request
-- GET http://stackoverflow.com/search?page=2&tab=relevance&q=gatling
-
-#### Example
-
-    exec(http("Page 2")
-        .get("/search")
-        .headers(headers_0)
-        .queryParam("page", "2")
-        .queryParam("tab", "relevance")
-        .queryParam("q", "gatling")
-        )
-        .pause(2)
-        .exec(http("Page 3")
-          .get("/search")
-          .headers(headers_0)
-          .queryParam("page", "3")
-          .queryParam("tab", "relevance")
-          .queryParam("q", "gatling")
-        )
-
-### Scenario 3
-1. 进入'Documentation'
-2. 输入需要寻找的tag
-3. 进入具体的主题页面
-
-#### Refer to 
-- http://gatling.io/docs/2.0.0-RC2/http/http_request.html#query-parameters
-- http://gatling.io/docs/2.0.0-RC2/http/http_request.html#post-parameters
-
-#### Request
-- GET  http://stackoverflow.com/documentation
-- POST http://stackoverflow.com/documentation/filter/submit
-- GET  http://stackoverflow.com/documentation/css/topics
-
-#### Example
-
-    exec(http("Documentations")
-        .get("/documentation")
+     val headers_0 = Map(
+         "Accept" -> "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8",
+         "Upgrade-Insecure-Requests" -> "1")
+         
+     val scn = scenario("homepageDemo")
+        //Home
+        .exec(http("homepage")
+        .get("/")
         .headers(headers_0)
       )
-        .pause(2)
-        .exec(http("Tag")
-          .post("/documentation/filter/submit")
-          .headers(headers_1)
-          .formParam("filter", "CSS")
-          .formParam("fkey", "f757bad658420c9ff22bd7a93654132c")
-          .formParam("tab", "popular")
-          .check(status.is(200))
-        )
-        .pause(2)
-        .exec(http("Topic")
-          .get("/documentation/css/topics")
-          .headers(headers_0)
-        )
+      
+      setUp(scn.inject(rampUsers(5) over (5 seconds))).protocols(httpProtocol)
+      
+##### Practice
 
+    仿照上述例子,自己编写对github网站的访问
 
-### Scenario 4
-1. 用户注入:5秒内平滑注入5个用户
-
-#### Refer to http://gatling.io/docs/2.0.0-RC2/general/simulation_setup.html
-#### Example
-
-    setUp(scn.inject(rampUsers(5) over (5 seconds))).protocols(httpProtocol)
-
-
-### Scenario 5
+#### Section 2-1
 1. 将三个scenario封装成object
 2. 定义三类虚拟用户进行不同操作:userA-search&browse,userB-documentation,userC-search&browse&documentation
 3. 使用三种方法丰富用户注入
@@ -114,9 +55,9 @@ Download Zip bundle
    - userB: atOnceUsers(nbUsers)
    - userC: constantUsersPerSec(rate) during(duration)
 
-#### Refer to
+##### Refer to
 http://gatling.io/docs/2.0.0-RC2/advanced_tutorial.html#step-01-isolate-processes
-#### Example
+##### Example
 
     //Search
     object Search {
@@ -191,18 +132,18 @@ http://gatling.io/docs/2.0.0-RC2/advanced_tutorial.html#step-01-isolate-processe
           
 
 
-### Scenario 6
+#### Section 2-2
 1. 使用feeder中的csv动态传递参数
 2. 使用check抓取并保存进入Documentation主题页面的URL,检查请求状态为200
 3. 访问保存的URL进入指定页面
 
-#### Refer to
+##### Refer to
 - http://gatling.io/docs/2.0.0-RC2/advanced_tutorial.html#step-03-use-dynamic-data-with-feeders-and-checks
 - http://gatling.io/docs/2.0.0-RC2/session/feeder.html#feeder
 - http://gatling.io/docs/2.0.0-RC2/http/http_check.html#http-response-body
 - http://gatling.io/docs/2.0.0-RC2/http/http_check.html#saving
 
-#### Example
+##### Example
 
     val feeder = csv("keyWords.csv").circular
     //Search
@@ -273,14 +214,14 @@ http://gatling.io/docs/2.0.0-RC2/advanced_tutorial.html#step-01-isolate-processe
           
          
 
-### Scenario 7
+#### Section 2-3
 1. 使用repeat简化翻页
 
-#### Refer to 
+##### Refer to 
 - http://gatling.io/docs/2.0.0-RC2/advanced_tutorial.html#step-04-looping
 - http://gatling.io/docs/2.0.0-RC2/general/scenario.html#repeat
 
-#### Example
+##### Example
 
       object Browse {
         //简单方法封装
