@@ -133,7 +133,7 @@ http://gatling.io/docs/2.0.0-RC2/advanced_tutorial.html#step-01-isolate-processe
 
 
 #### Section 2-2
-1. 使用feeder中的csv动态传递参数
+1. 使用feeder中的csv动态传递参数,传入搜索关键字"gatling"
 2. 使用check抓取并保存进入Documentation主题页面的URL,检查请求状态为200
 3. 访问保存的URL进入指定页面
 
@@ -171,21 +171,20 @@ http://gatling.io/docs/2.0.0-RC2/advanced_tutorial.html#step-01-isolate-processe
       object Browse {
          
          val browse =
-            feed(feeder)
-                 .exec(http("Page 2")
+            exec(http("Page 2")
                    .get("/search")
                    .headers(headers_0)
                    .queryParam("page", "2")
-                   .queryParam("tab", "${searchTabName}")
-                   .queryParam("q", "${searchCriterion}")
+                   .queryParam("tab", "relevance")
+                   .queryParam("q", "gatling")
                  )
                  .pause(2)
                  .exec(http("Page 3")
                    .get("/search")
                    .headers(headers_0)
                    .queryParam("page", "3")
-                   .queryParam("tab", "${searchTabName}")
-                   .queryParam("q", "${searchCriterion}")
+                   .queryParam("tab", "relevance")
+                   .queryParam("q", "gatling")
                  )
         }
         
@@ -197,14 +196,13 @@ http://gatling.io/docs/2.0.0-RC2/advanced_tutorial.html#step-01-isolate-processe
                 .get("/documentation")
                 .headers(headers_0))
                 .pause(1)
-                .feed(feeder)
                 .exec(http("Tag")
                   .post("/documentation/filter/submit")
                   .headers(headers_1)
-                  .formParam("filter", "${documentationCriterion}")
+                  .formParam("filter", "CSS")
                   .formParam("fkey", "f757bad658420c9ff22bd7a93654132c")
-                  .formParam("tab", "${documentationTabName}")
-                  .check(css("a:contains('${documentationName}')", "href").saveAs("topicsURL"))
+                  .formParam("tab", "popular")
+                  .check(css("a:contains('CSS')", "href").saveAs("topicsURL"))
                   .check(status.is(200)))
                 .pause(1)
                 .exec(http("Topics")
@@ -214,39 +212,12 @@ http://gatling.io/docs/2.0.0-RC2/advanced_tutorial.html#step-01-isolate-processe
           
          
 
-#### Section 2-3
+#### Homework :)
 1. 使用repeat简化翻页
 
 ##### Refer to 
-- http://gatling.io/docs/2.0.0-RC2/advanced_tutorial.html#step-04-looping
 - http://gatling.io/docs/2.0.0-RC2/general/scenario.html#repeat
 
-##### Example
-
-      object Browse {
-        //简单方法封装
-        def gotoPage(page: Int) =
-          feed(feeder)
-            .exec(http("Page " + page)
-              .get("/search")
-              .headers(headers_0)
-              .queryParam("page", page)
-              .queryParam("tab", "${searchTabName}")
-              .queryParam("q", "${searchCriterion}"))
-            .pause(1)
-        val browse = exec(gotoPage(2), gotoPage(3))
-        
-        //repeat method (从0页开始)
-        val browse = repeat(2, "i") {
-            exec(http("Page" + "${i}")
-               .get("/search")
-               .headers(headers_0)
-               .queryParam("page", "${i}")
-               .queryParam("tab", "relevance")
-               .queryParam("q", "gatling"))
-            .pause(1)
-        }
-      }
 
 
 
